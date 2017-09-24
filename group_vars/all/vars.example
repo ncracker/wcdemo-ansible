@@ -25,4 +25,4 @@ redis_url: "redis://{{ hostvars[groups['redis'][0]]['ansible_eth0']['ipv4']['add
 agent_user: "datadog"
 agent_pass: "top_secret"
 # datadog
-datadog_api: "<datadog-api-key>"
+datadog_api_key: "<datadog-api-key>"

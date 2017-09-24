@@ -7,9 +7,19 @@ ec2-52-15-95-111.us-east-2.compute.amazonaws.com
 [loadbalancer]
 ec2-18-220-13-77.us-east-2.compute.amazonaws.com
 
-[app]
+[app:children]
+app-master
+app-server
+
+[app-master]
 ec2-18-220-236-147.us-east-2.compute.amazonaws.com
+
+[app-server]
 ec2-18-221-120-190.us-east-2.compute.amazonaws.com
+
+[worker]
+ec2-18-220-239-70.us-east-2.compute.amazonaws.com
+ec2-52-14-106-15.us-east-2.compute.amazonaws.com
 
 [redis]
 ec2-13-59-204-230.us-east-2.compute.amazonaws.com

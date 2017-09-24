@@ -20,11 +20,11 @@
   notify: restart postgres
 
 - name: ensure database is created
-  postgresql_db: name={{dbname}}
+  postgresql_db: name={{ db_name }}
   become_user: postgres
 
 - name: ensure user has access to database
-  postgresql_user: db={{dbname}} name={{dbuser}} password={{dbpassword}} priv=ALL
+  postgresql_user: db={{ db_name }} name={{ db_user }} password={{ db_pass }} priv=ALL
   become_user: postgres
 
 - name: datadog postgres user

@@ -2,7 +2,6 @@
 - hosts: redis
   become: true
   vars:
-    datadog_api_key: "{{ datadog_api }}"
     datadog_checks:
       redisdb:
         init_config:

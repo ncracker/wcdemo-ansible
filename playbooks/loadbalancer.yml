@@ -3,6 +3,13 @@
   gather_facts: true
 - hosts: loadbalancer
   become: true
+  vars:
+    datadog_checks:
+      nginx:
+        init_config:
+        instances:
+          - nginx_status_url: http://localhost/nginx_status/
   roles:
+    - Datadog.datadog
     - nginx
 

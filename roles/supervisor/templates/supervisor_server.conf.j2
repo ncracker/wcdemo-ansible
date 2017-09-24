@@ -1,0 +1,14 @@
+[program:django]
+command={{ app_path }}/venv/bin/gunicorn --workers 3 --timeout 120 --name perfdemo --statsd-host 127.0.0.1:8125 -b 0.0.0.0:8000 perfdemo.wsgi:application
+user=ubuntu
+directory={{ app_path }}/
+autorestart=true
+autostart=true
+stdout_logfile_maxbytes=0
+stdout_logfile_backups=0
+stdout_logfile=/var/log/supervisor/%(program_name)s.log
+redirect_stderr=true
+stopasgroup=true
+killasgroup=true
+
+environment=PYTHONUNBUFFERED=1,PYTHONDONTWRITEBYTECODE=1

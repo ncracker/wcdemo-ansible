@@ -1,0 +1,12 @@
+---
+- hosts: loadbalancer
+  vars:
+    favcolor: "{{ group_names }}"
+    is_app: app in favcolor
+  tasks:
+    - name: debug color
+      debug: var=favcolor
+
+    - name: debug when
+      debug: var="porcupine"
+      when: "'balancer' in group_names"
