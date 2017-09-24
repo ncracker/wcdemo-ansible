@@ -1,0 +1,22 @@
+---
+- hosts: database
+  become: true
+  vars:
+    dbname: "{{ db_name }}"
+    dbuser: "{{ db_user }}"
+    dbpassword: "{{ db_pass }}"
+    datadog_api_key: "{{ datadog_api }}"
+    datadog_checks:
+      postgres:
+        init_config:
+        instances:
+          - host: localhost
+            port: 5432
+            username: "{{ agent_user }}"
+            password: "{{ agent_pass }}"
+            tags:
+              - test
+              - env:ans-demo
+  roles:
+    - postgres
+    - Datadog.datadog

@@ -1,0 +1,33 @@
+---
+- name: update apt cache
+  apt: update_cache=yes cache_valid_time=86400
+
+- name: ensure packages are installed
+  apt: name={{item}} state=present
+  with_items:
+    - acl
+    - libpq-dev
+    - python-psycopg2
+    - postgresql-9.3
+    - postgresql-contrib
+
+- name: ensure postgres pg_hba is configured
+  template: src=pg_hba.conf dest=/etc/postgresql/9.3/main/pg_hba.conf
+  notify: restart postgres
+  
+- name: ensure postgres is configured
+  template: src=postgresql.conf dest=/etc/postgresql/9.3/main/postgresql.conf
+  notify: restart postgres
+
+- name: ensure database is created
+  postgresql_db: name={{dbname}}
+  become_user: postgres
+
+- name: ensure user has access to database
+  postgresql_user: db={{dbname}} name={{dbuser}} password={{dbpassword}} priv=ALL
+  become_user: postgres
+
+- name: datadog postgres user
+  postgresql_user: db=postgres name={{ agent_user }} password={{ agent_pass }} priv=pg_stat_database:SELECT state=present
+  become_user: postgres
+
