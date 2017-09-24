@@ -1,0 +1,41 @@
+---
+- name: update apt cache
+  apt: update_cache=yes
+- name: install app components
+  apt: name={{item}} state=present
+  with_items:
+    - libpq-dev
+    - git
+    - software-properties-common
+    - python-dev
+    - python-pip
+
+- name: pip install 
+  pip: name={{item}} state=present
+  with_items:
+    - datadog
+    - pyyaml
+
+- name: get ansible repo
+  apt_repository:
+    repo: ppa:ansible/ansible
+    state: present
+
+- name: update apt cache again
+  apt: update_cache=yes
+
+- name: install app components
+  apt: name=ansible state=present
+
+- name: ensure git repo is present
+  git:
+    repo: "https://github.com/burnsie7/wcdemo-ansible.git"
+    dest: /var/wcdemo-ansible
+
+- name: ensure datadog_callback.yml
+  file:
+    path: /var/wcdemo-ansible/playbooks/callback_plugins/datadog_callback.yml
+    state: touch
+
+- name: copy api key to datadog_callback.yml
+  shell: 'echo api_key: "{{ datadog_api_key }}" >> /var/wcdemo-ansible/playbooks/callback_plugins/datadog_callback.yml'
