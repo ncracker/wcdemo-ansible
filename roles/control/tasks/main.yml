@@ -35,7 +35,19 @@
 - name: ensure datadog_callback.yml
   file:
     path: /var/wcdemo-ansible/playbooks/callback_plugins/datadog_callback.yml
+    state: absent
+
+- name: ensure datadog_callback.yml
+  file:
+    path: /var/wcdemo-ansible/playbooks/callback_plugins/datadog_callback.yml
     state: touch
 
 - name: copy api key to datadog_callback.yml
   shell: 'echo api_key: "{{ datadog_api_key }}" >> /var/wcdemo-ansible/playbooks/callback_plugins/datadog_callback.yml'
+
+- cron:
+    name: "test job"
+    minute: "*/2"
+    job: "ansible-playbook /var/wcdemo-ansible/playbooks/test.yml"
+
+# TODO: Create inventory using internal IPs, copy vars over, make cron task do something
