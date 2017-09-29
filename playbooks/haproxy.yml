@@ -1,0 +1,11 @@
+---
+- hosts: haproxy
+  remote_user: ubuntu
+  become: yes
+  roles:
+      - role: datadog
+      - role: sshkeys
+      - role: haproxy
+  vars:
+    datadog_api_key: dc375d356a9d7ee347a65fa0d2afe02a
+    datadog_agent_version: 1:5.17.2-1
